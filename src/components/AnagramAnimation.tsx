@@ -93,7 +93,7 @@ export const AnagramAnimation: React.FC<AnagramAnimationProps> = ({
     return (
         <div className="text-center font-serif text-3xl md:text-5xl tracking-widest min-h-[100px] perspective-1000 break-words px-4">
             <AnimatePresence>
-                {letters.map((letter, index) => (
+                {letters.map((letter) => (
                     <motion.div
                         layoutId={letter.id} // This is the magic of framer motion shared layout
                         key={letter.id}

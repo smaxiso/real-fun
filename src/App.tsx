@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { riddles } from './data/riddles';
 import { Quiz } from './components/Quiz';
 import { motion } from 'framer-motion';
