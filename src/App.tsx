@@ -25,7 +25,7 @@ function App() {
     <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4">
 
       {/* Atmospheric Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <div className="fixed inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
         {/* Fog 1 */}
         <motion.div
           animate={{ x: [-100, 100] }}
@@ -37,6 +37,24 @@ function App() {
           animate={{ x: [100, -100] }}
           transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
           className="absolute bottom-1/4 right-0 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[140px] mix-blend-screen"
+        />
+
+        {/* Logo Watermark */}
+        <motion.img
+          src="/logo.png"
+          alt=""
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: [0.1, 0.5, 0.1],
+            scale: [0.9, 1, 0.9],
+            rotate: [0, 2, -2, 0]
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="w-[90vw] md:w-[800px] object-contain mix-blend-screen filter drop-shadow-[0_0_30px_rgba(34,211,238,0.1)]"
         />
       </div>
 
