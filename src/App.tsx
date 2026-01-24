@@ -45,7 +45,7 @@ function App() {
           alt=""
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{
-            opacity: [0.1, 0.5, 0.1],
+            opacity: [0.1, 0.3, 0.1],
             scale: [0.9, 1, 0.9],
             rotate: [0, 2, -2, 0]
           }}
