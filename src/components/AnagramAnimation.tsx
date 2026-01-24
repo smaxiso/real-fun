@@ -90,44 +90,74 @@ export const AnagramAnimation: React.FC<AnagramAnimationProps> = ({
         }, 2000); // Wait for transition to finish
     };
 
-    return (
-        <div className="text-center font-serif text-3xl md:text-5xl tracking-widest min-h-[100px] perspective-1000 break-words px-4">
-            <AnimatePresence>
-                {letters.map((letter) => (
-                    <motion.div
-                        layoutId={letter.id} // This is the magic of framer motion shared layout
-                        key={letter.id}
-                        initial={false}
-                        animate={{
-                            scale: stage === 'end' ? 1.2 : 1,
-                            textShadow: stage === 'end'
-                                ? "0 0 10px rgba(0, 255, 200, 0.8), 0 0 20px rgba(0, 255, 200, 0.4)"
-                                : "0 0 0px transparent",
-                            color: stage === 'end' ? '#a5f3fc' : '#e2e8f0'
-                        }}
-                        transition={{
-                            type: "tween",
-                            ease: "easeInOut",
-                            duration: 3,
-                            delay: stage === 'end' ? Math.random() * 1.5 : 0 // Randomize the flight start more for floaty feel
-                        }}
-                        className="inline-block mx-1 relative"
-                        style={{
-                            width: letter.char === ' ' ? '0.5rem' : 'auto',
-                            display: 'inline-block'
-                        }}
-                    >
-                        {letter.char}
-                        {stage === 'end' && (
-                            <motion.span
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: [0, 1, 0] }}
-                                transition={{ duration: 1, repeat: Infinity }}
-                                className="absolute inset-0 bg-white blur-lg rounded-full"
-                            />
-                        )}
-                    </motion.div>
+    // Helper to group letters into words for rendering
+    const renderWords = () => {
+        const words: Letter[][] = [];
+        let currentWord: Letter[] = [];
+
+        letters.forEach((letter) => {
+            if (letter.char === ' ') {
+                if (currentWord.length > 0) {
+                    words.push(currentWord);
+                    currentWord = [];
+                }
+                // We don't push the space itself into a word, but we might need spacing between words.
+                // Alternatively, we can treat the space as a separator.
+            } else {
+                currentWord.push(letter);
+            }
+        });
+        if (currentWord.length > 0) {
+            words.push(currentWord);
+        }
+
+        return (
+            <div className="flex flex-wrap justify-center gap-x-[0.5em] gap-y-2">
+                {words.map((word, wordIndex) => (
+                    <div key={`word-${wordIndex}`} className="flex flex-wrap justify-center">
+                        {word.map((letter) => (
+                            <motion.div
+                                layoutId={letter.id}
+                                key={letter.id}
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{
+                                    opacity: 1,
+                                    scale: stage === 'end' ? 1.2 : 1,
+                                    textShadow: stage === 'end'
+                                        ? "0 0 10px rgba(0, 255, 200, 0.8), 0 0 20px rgba(0, 255, 200, 0.4)"
+                                        : "0 0 0px transparent",
+                                    color: stage === 'end' ? '#a5f3fc' : '#e2e8f0'
+                                }}
+                                exit={{ opacity: 0, scale: 0 }}
+                                transition={{
+                                    type: "tween",
+                                    ease: "easeInOut",
+                                    duration: 3,
+                                    delay: stage === 'end' ? Math.random() * 1.5 : 0
+                                }}
+                                className="relative inline-block"
+                            >
+                                {letter.char}
+                                {stage === 'end' && (
+                                    <motion.span
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: [0, 1, 0] }}
+                                        transition={{ duration: 1, repeat: Infinity }}
+                                        className="absolute inset-0 bg-white blur-lg rounded-full"
+                                    />
+                                )}
+                            </motion.div>
+                        ))}
+                    </div>
                 ))}
+            </div>
+        );
+    };
+
+    return (
+        <div className="text-center font-serif text-[clamp(1.5rem,5vw,3.5rem)] tracking-widest min-h-[100px] perspective-1000 px-4 leading-tight flex items-center justify-center">
+            <AnimatePresence mode='popLayout'>
+                {letters.length > 0 && renderWords()}
             </AnimatePresence>
         </div>
     );

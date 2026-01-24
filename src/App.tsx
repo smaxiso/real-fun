@@ -48,7 +48,7 @@ function App() {
             <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-emerald-400 font-serif text-xl italic"
+              className="text-emerald-300 font-hand text-4xl md:text-5xl drop-shadow-[0_0_10px_rgba(110,231,183,0.8)]"
             >
               "Mischief Managed"
             </motion.p>
@@ -61,6 +61,8 @@ function App() {
           onNext={handleNext}
           onPrev={handlePrev}
           onSolve={handleSolve}
+          currentIndex={currentRiddleIndex + 1}
+          totalRiddles={riddles.length}
         />
       </div>
 

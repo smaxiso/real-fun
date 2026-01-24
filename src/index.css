@@ -11,6 +11,9 @@
 @theme {
   --animate-float: float 6s ease-in-out infinite;
 
+  --font-serif: "Cinzel", serif;
+  --font-hand: "Pinyon Script", cursive;
+
   --keyframes-float: {
 
     0%,
@@ -22,6 +25,10 @@
       transform: translateY(-20px);
     }
   }
+}
+
+.font-hand {
+  font-family: var(--font-hand);
 }
 
 /* Custom Scrollbar */
